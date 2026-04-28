@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI求人マスター｜AIが求人代行の"回す作業"をゼロにする。engage特化型SaaS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple:      #7C3AED;
+      --purple-dark: #6D28D9;
+      --purple-light:#f5f3ff;
+      --violet:      #A855F7;
+      --violet-light:#e9d5ff;
+      --dark:        #1a1f2b;
+      --dark2:       #303042;
+      --gray-bg:     #f8f8f8;
+      --gray-text:   #495057;
+      --gray-mid:    #999;
+      --white:       #ffffff;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans JP', Meiryo, 'Hiragino Kaku Gothic Pro', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #eee;
+      padding: 0 48px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-svg { width: 42px; height: 42px; flex-shrink: 0; }
+    .logo-text-block { display: flex; align-items: baseline; line-height: 1; }
+
+    .logo-ai {
+      font-size: 26px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--violet) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+
+    .logo-name { font-size: 22px; font-weight: 900; color: var(--dark); letter-spacing: -0.5px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      text-decoration: none; border-radius: 40px; font-weight: 700;
+      transition: all 0.25s; cursor: pointer; border: none; font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      color: #fff; padding: 12px 28px; font-size: 14px;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.45); }
+
+    .btn-dark { background: var(--dark); color: #fff; padding: 16px 40px; font-size: 16px; }
+    .btn-dark:hover { background: #2a3040; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+    .btn-outline { background: transparent; color: var(--purple); border: 2px solid var(--purple); padding: 14px 36px; font-size: 16px; }
+    .btn-outline:hover { background: var(--purple); color: #fff; transform: translateY(-2px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; padding: 100px 48px 80px;
+      position: relative; overflow: hidden;
+      background: var(--white); display: flex; align-items: center;
+    }
+
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, #d0d8e4 1px, transparent 1px);
+      background-size: 24px 24px; opacity: 0.45; pointer-events: none;
+    }
+
+    .hero::after {
+      content: ''; position: absolute; top: -200px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,58,237,0.07), transparent 70%);
+      border-radius: 50%; pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 440px;
+      gap: 64px; align-items: center; position: relative; z-index: 1;
+    }
+
+    .hero-kicker { font-size: 14px; font-weight: 500; color: var(--gray-text); margin-bottom: 12px; letter-spacing: 1px; }
+
+    .hero h1 { font-size: 50px; font-weight: 900; line-height: 1.25; color: var(--dark); margin-bottom: 24px; letter-spacing: -1.5px; }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .hero-lead { font-size: 17px; color: var(--gray-text); line-height: 1.8; margin-bottom: 32px; }
+
+    .hero-checks { list-style: none; margin-bottom: 44px; display: flex; flex-direction: column; gap: 10px; }
+
+    .hero-checks li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 15px; font-weight: 500; color: var(--dark2);
+    }
+
+    .hero-checks li::before {
+      content: '✓'; width: 22px; height: 22px;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      border-radius: 50%; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .hero-visual { position: relative; }
+
+    .hero-card {
+      background: #fff; border-radius: 28px; padding: 36px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.12); position: relative;
+    }
+
+    .hero-card::before {
+      content: ''; position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      z-index: -1;
+    }
+
+    .card-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+    .card-logo-text { font-size: 16px; font-weight: 900; color: var(--dark); }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+
+    .stat-box { background: var(--gray-bg); border-radius: 16px; padding: 20px 14px; text-align: center; }
+
+    .stat-box .num {
+      font-size: 36px; font-weight: 900;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1; margin-bottom: 4px;
+    }
+
+    .stat-box .num sub { font-size: 17px; }
+    .stat-box .lbl { font-size: 11px; color: var(--gray-mid); line-height: 1.4; }
+
+    .card-tagline {
+      background: linear-gradient(135deg, rgba(124,58,237,0.07), rgba(168,85,247,0.07));
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 14px; padding: 16px 18px; text-align: center;
+      font-size: 14px; font-weight: 700; color: var(--dark2);
+    }
+
+    .card-tagline span { color: var(--purple); }
+
+    /* ── SECTION COMMON ── */
+    .section { padding: 100px 48px; }
+    .section-inner { max-width: 1160px; margin: 0 auto; }
+
+    .eyebrow { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
+    .eyebrow-line { width: 36px; height: 2px; background: var(--purple); }
+    .eyebrow-text { color: var(--purple); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+
+    .section-title { text-align: center; font-size: 38px; font-weight: 900; color: var(--dark); line-height: 1.3; margin-bottom: 14px; letter-spacing: -1px; }
+    .section-title .pur { color: var(--purple); }
+
+    .section-lead { text-align: center; font-size: 16px; color: var(--gray-text); line-height: 1.8; max-width: 640px; margin: 0 auto 64px; }
+
+    /* ── PROBLEM ── */
+    .problem-section { background: var(--dark); }
+    .problem-section .section-title { color: #fff; }
+    .problem-section .section-lead { color: rgba(255,255,255,0.6); }
+    .problem-section .eyebrow-line { background: rgba(124,58,237,0.5); }
+    .problem-section .eyebrow-text { color: var(--violet); }
+
+    .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    .problem-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 32px 28px; transition: all 0.25s;
+    }
+
+    .problem-card:hover { background: rgba(255,255,255,0.09); border-color: rgba(124,58,237,0.3); transform: translateY(-4px); }
+
+    .p-icon {
+      width: 52px; height: 52px; background: rgba(124,58,237,0.12);
+      border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin-bottom: 16px;
+    }
+
+    .problem-card h3 { font-size: 16px; font-weight: 700; color: #fff; line-height: 1.55; margin-bottom: 10px; }
+    .problem-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+    .problem-quote {
+      margin-top: 48px; text-align: center; padding: 28px;
+      background: rgba(124,58,237,0.07); border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 16px; color: var(--violet); font-size: 18px; font-weight: 700;
+    }
+
+    /* ── WHAT IS ── */
+    .whatis-section { background: var(--gray-bg); }
+
+    .flow-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    .flow-card {
+      background: #fff; border-radius: 20px; padding: 32px 28px;
+      border: 1px solid #eee; text-align: center; transition: all 0.25s;
+      position: relative;
+    }
+
+    .flow-card:hover { border-color: var(--purple); box-shadow: 0 12px 40px rgba(124,58,237,0.1); transform: translateY(-4px); }
+
+    .flow-num {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: #fff;
+      margin: 0 auto 16px;
+    }
+
+    .flow-card h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .flow-card p { font-size: 13px; color: var(--gray-text); line-height: 1.7; }
+
+    /* ── FEATURES ── */
+    .functions-section { background: #fff; }
+
+    .fn-block {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+      padding: 64px 0; border-bottom: 1px solid #eee;
+    }
+
+    .fn-block:last-child { border-bottom: none; }
+    .fn-block.reverse { direction: rtl; }
+    .fn-block.reverse > * { direction: ltr; }
+
+    .fn-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,58,237,0.07); border: 1px solid rgba(124,58,237,0.2);
+      color: var(--purple); font-size: 11px; font-weight: 700;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 1px;
+    }
+
+    .fn-num {
+      font-size: 11px; font-weight: 700;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      color: #fff; padding: 2px 8px; border-radius: 10px;
+    }
+
+    .fn-block h3 { font-size: 30px; font-weight: 900; color: var(--dark); line-height: 1.35; margin-bottom: 14px; letter-spacing: -0.5px; }
+    .fn-block h3 .pur { color: var(--purple); }
+
+    .fn-desc { font-size: 15px; color: var(--gray-text); line-height: 1.8; margin-bottom: 28px; }
+
+    .fn-items { display: flex; flex-direction: column; gap: 10px; }
+
+    .fn-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--gray-bg); border-radius: 12px; padding: 13px 16px;
+      font-size: 14px; font-weight: 500; color: var(--dark2); transition: all 0.2s;
+    }
+
+    .fn-item:hover { background: rgba(124,58,237,0.06); color: var(--purple); }
+    .fi-icon { font-size: 20px; flex-shrink: 0; }
+
+    .fn-visual { background: var(--gray-bg); border-radius: 24px; overflow: hidden; border: 1px solid #e8edf2; }
+
+    .mv-header { background: var(--dark); padding: 12px 16px; display: flex; align-items: center; gap: 8px; }
+    .mv-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mv-title { color: rgba(255,255,255,0.5); font-size: 12px; margin-left: 8px; }
+    .mv-body { padding: 20px; background: #fff; }
+
+    /* ── RESULTS ── */
+    .results-section { background: var(--dark); }
+    .results-section .section-title { color: #fff; }
+    .results-section .section-lead { color: rgba(255,255,255,0.6); }
+    .results-section .eyebrow-line { background: rgba(124,58,237,0.5); }
+    .results-section .eyebrow-text { color: var(--violet); }
+
+    .results-big {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px;
+    }
+
+    .result-big-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 24px; padding: 40px 32px; text-align: center;
+    }
+
+    .result-big-card .big-num {
+      font-size: 64px; font-weight: 900;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1; margin-bottom: 10px;
+    }
+
+    .result-big-card .big-lbl { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .result-big-card .big-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    .reduction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    .reduction-item {
+      background: rgba(255,255,255,0.04); border-radius: 16px; padding: 20px;
+      display: flex; align-items: center; gap: 16px;
+    }
+
+    .reduction-item .r-icon { font-size: 24px; flex-shrink: 0; }
+    .reduction-item .r-label { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.8); }
+    .reduction-item .r-val { font-size: 20px; font-weight: 900; color: var(--violet); }
+
+    /* ── ALL FEATURES ── */
+    .allfeatures-section { background: var(--gray-bg); }
+
+    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+    .feature-item {
+      background: #fff; border-radius: 16px; padding: 20px 24px;
+      display: flex; align-items: center; gap: 16px;
+      border: 1px solid #eee; transition: all 0.2s;
+    }
+
+    .feature-item:hover { border-color: var(--purple); box-shadow: 0 4px 20px rgba(124,58,237,0.08); }
+
+    .feature-num {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+
+    .feature-item h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
+    .feature-item p { font-size: 12px; color: var(--gray-text); line-height: 1.5; }
+
+    /* ── HOW TO ── */
+    .howto-section { background: #fff; }
+
+    .howto-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+    .howto-card {
+      text-align: center; padding: 36px 24px;
+      border-radius: 24px; border: 1px solid #eee; position: relative; transition: all 0.25s;
+    }
+
+    .howto-card:hover { border-color: var(--purple); box-shadow: 0 12px 40px rgba(124,58,237,0.1); transform: translateY(-4px); }
+
+    .howto-card::after {
+      content: '→'; position: absolute; right: -20px; top: 50%;
+      transform: translateY(-50%); font-size: 20px; color: var(--purple); font-weight: 900;
+    }
+
+    .howto-card:last-child::after { display: none; }
+
+    .howto-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; color: #fff;
+      margin: 0 auto 16px;
+    }
+
+    .howto-card h3 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 8px; line-height: 1.4; }
+    .howto-card p { font-size: 13px; color: var(--gray-text); line-height: 1.6; }
+
+    /* ── PRICING ── */
+    .pricing-section { background: var(--dark); padding: 100px 48px; }
+    .pricing-section .section-title { color: #fff; }
+    .pricing-section .section-lead { color: rgba(255,255,255,0.6); }
+    .pricing-section .eyebrow-line { background: rgba(124,58,237,0.5); }
+    .pricing-section .eyebrow-text { color: var(--violet); }
+
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    .price-card { border-radius: 24px; padding: 40px 32px; transition: transform 0.25s; position: relative; }
+    .price-card:hover { transform: translateY(-6px); }
+
+    .price-card.lite     { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); }
+    .price-card.standard { background: rgba(124,58,237,0.1); border: 2px solid var(--purple); }
+    .price-card.pro      { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); }
+
+    .popular-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      color: #fff; font-size: 11px; font-weight: 700; padding: 5px 18px;
+      border-radius: 20px; white-space: nowrap;
+    }
+
+    .pname { font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
+    .pname-ja { font-size: 13px; font-weight: 700; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+    .lite .pname { color: rgba(255,255,255,0.45); }
+    .lite .pname-ja { color: rgba(255,255,255,0.3); }
+    .standard .pname { color: var(--violet); }
+    .standard .pname-ja { color: rgba(168,85,247,0.7); }
+    .pro .pname { color: rgba(255,255,255,0.45); }
+    .pro .pname-ja { color: rgba(255,255,255,0.3); }
+
+    .pdesc { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+
+    .pfeatures { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+    .pfeatures li {
+      font-size: 13px; color: rgba(255,255,255,0.7);
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+
+    .pfeatures li::before { content: '◆'; color: var(--violet); font-size: 9px; flex-shrink: 0; margin-top: 5px; }
+    .standard .pfeatures li { color: rgba(255,255,255,0.9); }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--violet) 100%);
+      padding: 100px 48px; text-align: center;
+    }
+
+    .cta-section h2 { font-size: 44px; font-weight: 900; color: #fff; line-height: 1.3; margin-bottom: 14px; letter-spacing: -1px; }
+    .cta-section > p { font-size: 17px; color: rgba(255,255,255,0.85); margin-bottom: 56px; }
+
+    .cta-form-wrap {
+      max-width: 520px; margin: 0 auto; background: #fff;
+      border-radius: 28px; padding: 48px 44px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.2); text-align: left;
+    }
+
+    .cta-form-wrap h3 { font-size: 20px; font-weight: 700; color: var(--dark); text-align: center; margin-bottom: 28px; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .form-group label span { color: #e74c3c; margin-left: 3px; }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 13px 16px; border: 2px solid #e8edf2;
+      border-radius: 12px; font-size: 15px; color: var(--dark);
+      font-family: inherit; transition: border-color 0.2s; outline: none; appearance: none;
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--purple); }
+    .form-group textarea { height: 90px; resize: vertical; }
+
+    .form-submit {
+      width: 100%; padding: 16px; background: var(--dark); color: #fff;
+      border: none; border-radius: 40px; font-size: 16px; font-weight: 700;
+      cursor: pointer; transition: all 0.25s; margin-top: 8px; font-family: inherit;
+    }
+
+    .form-submit:hover {
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      transform: translateY(-2px); box-shadow: 0 8px 28px rgba(124,58,237,0.4);
+    }
+
+    .form-note { text-align: center; font-size: 12px; color: var(--gray-mid); margin-top: 14px; line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--dark); padding: 36px 48px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+
+    .footer p { color: rgba(255,255,255,0.3); font-size: 13px; }
+
+    /* ── SCROLL ANIMATION ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero h1 { font-size: 36px; }
+      .problem-grid { grid-template-columns: 1fr 1fr; }
+      .fn-block, .fn-block.reverse { grid-template-columns: 1fr; direction: ltr; }
+      .fn-visual { display: none; }
+      .results-big { grid-template-columns: 1fr; }
+      .reduction-grid { grid-template-columns: 1fr 1fr; }
+      .howto-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .flow-wrap { grid-template-columns: 1fr; }
+      .section-title { font-size: 28px; }
+      .site-header { padding: 0 20px; }
+    }
+
+    @media (max-width: 640px) {
+      .section { padding: 60px 20px; }
+      .hero { padding: 90px 20px 60px; }
+      .hero h1 { font-size: 30px; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .howto-grid { grid-template-columns: 1fr; }
+      .cta-form-wrap { padding: 32px 24px; }
+      .cta-section h2 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="site-header">
+  <a href="#" class="logo-wrap">
+    <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lgrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stop-color="#7C3AED"/>
+          <stop offset="100%" stop-color="#A855F7"/>
+        </linearGradient>
+      </defs>
+      <!-- 人材・求人をイメージしたアイコン（人＋上昇グラフ） -->
+      <circle cx="20" cy="10" r="6" fill="url(#lgrad)" opacity="0.9"/>
+      <path d="M10 32 Q10 22 20 22 Q30 22 30 32" stroke="url(#lgrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <line x1="26" y1="20" x2="36" y2="12" stroke="url(#lgrad)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <polyline points="30,12 36,12 36,18" stroke="url(#lgrad)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+    </svg>
+    <div class="logo-text-block">
+      <span class="logo-ai">AI</span><span class="logo-name">求人マスター</span>
+    </div>
+  </a>
+  <div>
+    <a href="#contact" class="btn btn-primary">お問い合わせ・デモ申込</a>
+  </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-kicker">engage特化型 求人代行AI自動化ツール —</p>
+      <h1>
+        AIが求人代行の<br>
+        <span class="accent">"回す作業"を<br>ゼロにする。</span>
+      </h1>
+      <p class="hero-lead">
+        原稿作成・応募者対応・再申請・法令チェックまで。<br>
+        求人代行の"手作業"をAIが丸ごと自動化します。
+      </p>
+      <ul class="hero-checks">
+        <li>全クライアントのengageを1画面で一元管理</li>
+        <li>求人原稿をAIが自動生成・文体学習まで対応</li>
+        <li>応募から1時間以内にAIが一次返信</li>
+        <li>再申請スケジュールをAIが自動実行</li>
+        <li>公開前にAIが規約違反を自動チェック</li>
+      </ul>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-dark">無料デモを申し込む</a>
+        <a href="#features" class="btn btn-outline">機能を見る</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="card-logo">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+            <defs><linearGradient id="clg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs>
+            <circle cx="20" cy="10" r="6" fill="url(#clg)" opacity="0.9"/>
+            <path d="M10 32 Q10 22 20 22 Q30 22 30 32" stroke="url(#clg)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <line x1="26" y1="20" x2="36" y2="12" stroke="url(#clg)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <polyline points="30,12 36,12 36,18" stroke="url(#clg)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+          </svg>
+          <div class="card-logo-text">
+            <span style="background:linear-gradient(135deg,var(--purple),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:900;">AI</span>求人マスター
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="num">85<sub>%</sub></div>
+            <div class="lbl">工数削減</div>
+          </div>
+          <div class="stat-box">
+            <div class="num">3<sub>h</sub></div>
+            <div class="lbl">週の作業時間<br>（20.5h→3h）</div>
+          </div>
+          <div class="stat-box">
+            <div class="num">1<sub>h</sub></div>
+            <div class="lbl">応募から<br>AI一次返信</div>
+          </div>
+          <div class="stat-box">
+            <div class="num">10</div>
+            <div class="lbl">主要機能</div>
+          </div>
+        </div>
+
+        <div class="card-tagline">
+          求人代行の<span>"回す作業"</span>から解放される
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROBLEM ─── -->
+<section class="section problem-section">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">PROBLEM</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h2 class="section-title" style="color:#fff;">
+      こんな求人課題、<br><span style="color:#c084fc;">"ありませんか？"</span>
+    </h2>
+    <p class="section-lead">誰かがサボってるんじゃなくて、仕組みがないから起きてるんです。</p>
+
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="p-icon">✍️</div>
+        <h3>求人原稿のブラッシュアップが大変</h3>
+        <p>毎回ゼロから書く・修正する作業で担当者の工数が圧迫されている。</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="p-icon">📬</div>
+        <h3>応募に気づくのが翌日になっていた</h3>
+        <p>応募通知を見逃したり、初動が遅れてライバルに候補者を取られてしまう。</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="p-icon">⌨️</div>
+        <h3>ハロワの求人票をengageに手入力している</h3>
+        <p>PDFを見ながら手で転記。クライアントが増えるほど作業量が膨らむ一方。</p>
+      </div>
+    </div>
+
+    <div class="problem-quote reveal">
+      "これらすべての課題を、AI求人マスターが一気に解決します。"
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHAT IS ─── -->
+<section class="section whatis-section">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">WHAT IS</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h2 class="section-title">
+      AI求人マスターとは？<br><span class="pur">engageをハブにした求人運用の完全自動化</span>
+    </h2>
+    <p class="section-lead">engageはIndeed・スタンバイなど複数媒体にまとめて掲載できます。そのengageをハブにした「回し続ける作業」をAIが代行します。</p>
+
+    <div class="flow-wrap reveal">
+      <div class="flow-card">
+        <div class="flow-num">1</div>
+        <h3>1画面集約</h3>
+        <p>複数クライアントのengage管理を一元化。ログインや巡回の手間をゼロに。</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">2</div>
+        <h3>AI原稿作成・編集</h3>
+        <p>求人原稿の自動生成・文体学習・Hello Work PDF取込で作成時間を大幅短縮。</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">3</div>
+        <h3>AI自動対応</h3>
+        <p>法令チェック・応募者への即時返信・再申請スケジューリングをAIが自動実行。</p>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;text-align:center;padding:24px;background:var(--purple-light);border:1px solid rgba(124,58,237,0.2);border-radius:16px;" class="reveal">
+      <p style="font-size:17px;font-weight:700;color:var(--purple);">"手作業で回す時代は終わりです。"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURES ─── -->
+<section class="section functions-section" id="features">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">FEATURES</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h2 class="section-title">5つの<span class="pur">主要機能</span></h2>
+    <p class="section-lead">求人代行の工数を圧迫する作業を、まるごとAIが代行します。</p>
+
+    <!-- 01 -->
+    <div class="fn-block reveal">
+      <div>
+        <div class="fn-badge"><span class="fn-num">FUNCTION 01</span> 一元管理</div>
+        <h3>全クライアントを<br><span class="pur">1画面で管理</span></h3>
+        <p class="fn-desc">クライアントごとにengageへログイン・巡回する作業が不要に。1画面で全クライアントの求人状況を把握できます。</p>
+        <div class="fn-items">
+          <div class="fn-item"><span class="fi-icon">🖥️</span>全クライアントのengageを1画面で一覧管理</div>
+          <div class="fn-item"><span class="fi-icon">🔔</span>新規応募・求人票エラーを即時検知</div>
+          <div class="fn-item"><span class="fi-icon">📊</span>全求人のステータスを一目で把握</div>
+          <div class="fn-item"><span class="fi-icon">⏱️</span>朝の巡回チェックがゼロに（5分×社数→1分）</div>
+        </div>
+      </div>
+      <div class="fn-visual">
+        <div class="mv-header">
+          <div class="mv-dot" style="background:#ff5f57"></div>
+          <div class="mv-dot" style="background:#febc2e"></div>
+          <div class="mv-dot" style="background:#28c840"></div>
+          <span class="mv-title">クライアント一覧</span>
+        </div>
+        <div class="mv-body">
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--gray-bg);border-radius:10px;font-size:13px;">
+              <span style="font-weight:700;">株式会社ABC</span>
+              <span style="background:linear-gradient(135deg,var(--purple),var(--violet));color:#fff;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;">新着応募 2件</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--gray-bg);border-radius:10px;font-size:13px;">
+              <span style="font-weight:700;">XYZ株式会社</span>
+              <span style="background:#e8f5e9;color:#388e3c;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;">正常稼働中</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff3ee;border-radius:10px;font-size:13px;">
+              <span style="font-weight:700;">株式会社DEF</span>
+              <span style="background:#ffe0d6;color:#e55a25;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;">エラー検知</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="fn-block reverse reveal">
+      <div>
+        <div class="fn-badge"><span class="fn-num">FUNCTION 02</span> AI原稿作成</div>
+        <h3>求人原稿を<br><span class="pur">AIが作る・直す</span></h3>
+        <p class="fn-desc">手書き30分 → AI生成＋確認5分。文体が「人」ではなく「システム」に残るため、担当が変わっても同じ品質で出せます。</p>
+        <div class="fn-items">
+          <div class="fn-item"><span class="fi-icon">✨</span>条件を入れてボタンを押すだけでAI自動生成</div>
+          <div class="fn-item"><span class="fi-icon">🎨</span>AI Styleコピー機能 — 参考URLの文体を学習・再現</div>
+          <div class="fn-item"><span class="fi-icon">📄</span>ハローワークPDF・他社求人URLから全項目自動入力</div>
+          <div class="fn-item"><span class="fi-icon">🔄</span>担当者が変わっても同じ品質を維持</div>
+        </div>
+      </div>
+      <div class="fn-visual">
+        <div class="mv-header">
+          <div class="mv-dot" style="background:#ff5f57"></div>
+          <div class="mv-dot" style="background:#febc2e"></div>
+          <div class="mv-dot" style="background:#28c840"></div>
+          <span class="mv-title">AI求人原稿生成</span>
+        </div>
+        <div class="mv-body">
+          <div style="font-size:11px;font-weight:700;color:var(--purple);margin-bottom:8px;">✨ AI生成完了</div>
+          <div style="background:var(--gray-bg);border-radius:8px;padding:12px;font-size:12px;color:var(--dark2);line-height:1.7;">
+            <div style="font-weight:700;margin-bottom:4px;">【営業事務スタッフ】株式会社ABC</div>
+            <div>未経験歓迎！充実の研修制度で安心スタート。<br>残業月平均10h以下、<span style="color:var(--purple);font-weight:700;">定着率95%</span>の働きやすい環境です。</div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px;">
+            <div style="flex:1;background:linear-gradient(135deg,var(--purple),var(--violet));color:#fff;border-radius:20px;padding:8px;font-size:12px;font-weight:700;text-align:center;">このまま掲載</div>
+            <div style="flex:1;background:var(--gray-bg);color:var(--dark2);border-radius:20px;padding:8px;font-size:12px;font-weight:700;text-align:center;">再生成</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="fn-block reveal">
+      <div>
+        <div class="fn-badge"><span class="fn-num">FUNCTION 03</span> AI法令チェック</div>
+        <h3>公開前に<br><span class="pur">AIが規約を自動チェック</span></h3>
+        <p class="fn-desc">engageに出す前に、AIが各求人サイトの規約をもとに自動チェック。NGがあれば公開前に止まります。</p>
+        <div class="fn-items">
+          <div class="fn-item"><span class="fi-icon">🔍</span>ボタン1つでチェック実行</div>
+          <div class="fn-item"><span class="fi-icon">🚨</span>問題箇所を赤いハイライトで表示</div>
+          <div class="fn-item"><span class="fi-icon">💡</span>理由と修正案まで自動提示</div>
+          <div class="fn-item"><span class="fi-icon">🛡️</span>規約違反リスクをゼロに近づける</div>
+        </div>
+      </div>
+      <div class="fn-visual">
+        <div class="mv-header">
+          <div class="mv-dot" style="background:#ff5f57"></div>
+          <div class="mv-dot" style="background:#febc2e"></div>
+          <div class="mv-dot" style="background:#28c840"></div>
+          <span class="mv-title">AI法令チェック</span>
+        </div>
+        <div class="mv-body">
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="background:#fff3ee;border-left:3px solid #e55a25;padding:10px 14px;border-radius:0 8px 8px 0;font-size:12px;">
+              <div style="font-weight:700;color:#e55a25;">⚠️ NG検出 — 年齢制限の表現</div>
+              <div style="color:#666;margin-top:2px;">「35歳以下歓迎」は年齢差別に該当します。</div>
+              <div style="color:var(--purple);font-weight:700;margin-top:4px;">修正案：「若手・ベテラン活躍中」</div>
+            </div>
+            <div style="background:#e8f5e9;border-left:3px solid #388e3c;padding:10px 14px;border-radius:0 8px 8px 0;font-size:12px;">
+              <div style="font-weight:700;color:#388e3c;">✅ 問題なし — 給与・勤務時間の記載</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="fn-block reverse reveal">
+      <div>
+        <div class="fn-badge"><span class="fn-num">FUNCTION 04</span> AI自動返信</div>
+        <h3>応募から<span class="pur">1時間以内に</span><br>AIが一次返信</h3>
+        <p class="fn-desc">ライバルより先にアプローチ。「あの候補者どうなった？」という確認作業がなくなります。</p>
+        <div class="fn-items">
+          <div class="fn-item"><span class="fi-icon">⚡</span>応募から1時間以内にAIが一次返信</div>
+          <div class="fn-item"><span class="fi-icon">👤</span>応募者情報に合わせたパーソナライズ返信</div>
+          <div class="fn-item"><span class="fi-icon">📋</span>応募者管理ダッシュボードで進捗を一元管理</div>
+          <div class="fn-item"><span class="fi-icon">🏆</span>初動の速さで採用競合に差をつける</div>
+        </div>
+      </div>
+      <div class="fn-visual">
+        <div class="mv-header">
+          <div class="mv-dot" style="background:#ff5f57"></div>
+          <div class="mv-dot" style="background:#febc2e"></div>
+          <div class="mv-dot" style="background:#28c840"></div>
+          <span class="mv-title">AI自動返信</span>
+        </div>
+        <div class="mv-body">
+          <div style="font-size:11px;color:var(--purple);font-weight:700;margin-bottom:8px;">📬 新規応募 — 山田 太郎様（応募から32分後）</div>
+          <div style="background:var(--gray-bg);border-radius:8px;padding:12px;font-size:12px;color:var(--dark2);line-height:1.7;">
+            <div style="font-weight:700;margin-bottom:4px;">件名：ご応募ありがとうございます</div>
+            <div>山田 太郎 様<br>この度はご応募いただきありがとうございます。<br>担当者より<span style="color:var(--purple);font-weight:700;">2営業日以内</span>にご連絡いたします…</div>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:var(--gray-mid);text-align:right;">✅ AI自動送信完了</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="fn-block reveal">
+      <div>
+        <div class="fn-badge"><span class="fn-num">FUNCTION 05</span> 自動再申請</div>
+        <h3>再申請スケジュールを<br><span class="pur">AIが自動実行</span></h3>
+        <p class="fn-desc">engageは再申請すると検索順位が上がります。手動で水曜日に再申請していたあの作業を、自動でやります。"表示されてない"という連絡が来なくなります。</p>
+        <div class="fn-items">
+          <div class="fn-item"><span class="fi-icon">📅</span>曜日・時間を指定して自動再申請を設定</div>
+          <div class="fn-item"><span class="fi-icon">📈</span>検索上位表示を自動でキープ</div>
+          <div class="fn-item"><span class="fi-icon">🔄</span>複数クライアント・複数求人を一括スケジュール</div>
+          <div class="fn-item"><span class="fi-icon">📣</span>「表示されてない」クレームをゼロに</div>
+        </div>
+      </div>
+      <div class="fn-visual">
+        <div class="mv-header">
+          <div class="mv-dot" style="background:#ff5f57"></div>
+          <div class="mv-dot" style="background:#febc2e"></div>
+          <div class="mv-dot" style="background:#28c840"></div>
+          <span class="mv-title">自動再申請スケジュール</span>
+        </div>
+        <div class="mv-body">
+          <div style="font-size:11px;color:var(--purple);font-weight:700;margin-bottom:8px;">🔄 毎週水曜 10:00 に自動再申請</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="background:var(--gray-bg);border-radius:8px;padding:10px 14px;font-size:12px;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-weight:700;">営業事務スタッフ — 株式会社ABC</span>
+              <span style="color:var(--purple);font-size:11px;font-weight:700;">自動</span>
+            </div>
+            <div style="background:var(--gray-bg);border-radius:8px;padding:10px 14px;font-size:12px;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-weight:700;">Webデザイナー — XYZ株式会社</span>
+              <span style="color:var(--purple);font-size:11px;font-weight:700;">自動</span>
+            </div>
+            <div style="background:linear-gradient(135deg,var(--purple),var(--violet));color:#fff;border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700;text-align:center;">
+              次回実行：水曜 10:00
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESULTS ─── -->
+<section class="section results-section">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">RESULTS</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h2 class="section-title" style="color:#fff;">導入効果 —<br><span style="color:var(--violet);">工数が劇的に削減されます</span></h2>
+    <p class="section-lead">5クライアント・各3求人を運用する代行会社の場合</p>
+
+    <div class="results-big reveal">
+      <div class="result-big-card">
+        <div class="big-num">85%</div>
+        <div class="big-lbl">工数削減率</div>
+        <div class="big-desc">手作業中心の運用から<br>AI自動化へ切り替えた場合</div>
+      </div>
+      <div class="result-big-card">
+        <div class="big-num">3h</div>
+        <div class="big-lbl">週間の合計作業時間</div>
+        <div class="big-desc">導入前 20.5h → 導入後 3h<br>17.5時間を解放</div>
+      </div>
+      <div class="result-big-card">
+        <div class="big-num">7</div>
+        <div class="big-lbl">削減できる作業カテゴリ</div>
+        <div class="big-desc">巡回・原稿・入力・再申請<br>応募管理・返信・レポート</div>
+      </div>
+    </div>
+
+    <div class="reduction-grid reveal">
+      <div class="reduction-item"><span class="r-icon">👁️</span><div><div class="r-label">巡回チェック</div><div class="r-val">▲2.5h</div></div></div>
+      <div class="reduction-item"><span class="r-icon">✍️</span><div><div class="r-label">原稿作成</div><div class="r-val">▲6.0h</div></div></div>
+      <div class="reduction-item"><span class="r-icon">⌨️</span><div><div class="r-label">PDF手入力</div><div class="r-val">▲2.0h</div></div></div>
+      <div class="reduction-item"><span class="r-icon">🔄</span><div><div class="r-label">再申請</div><div class="r-val">▲1.0h</div></div></div>
+      <div class="reduction-item"><span class="r-icon">👥</span><div><div class="r-label">応募者管理</div><div class="r-val">▲2.5h</div></div></div>
+      <div class="reduction-item"><span class="r-icon">💬</span><div><div class="r-label">初動返信</div><div class="r-val">▲2.0h</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ALL FEATURES ─── -->
+<section class="section allfeatures-section">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">ALL FEATURES</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h2 class="section-title">主要機能<span class="pur"> 10項目</span></h2>
+    <p class="section-lead">求人代行に必要なすべての機能を搭載しています。</p>
+
+    <div class="features-grid reveal">
+      <div class="feature-item"><div class="feature-num">01</div><div><h4>クライアント一元管理＋engage連携</h4><p>全クライアントのengageを1画面で集約管理</p></div></div>
+      <div class="feature-item"><div class="feature-num">02</div><div><h4>自動再申請スケジューリング</h4><p>曜日・時間指定で検索順位を自動キープ</p></div></div>
+      <div class="feature-item"><div class="feature-num">03</div><div><h4>AI求人原稿 自動生成</h4><p>条件入力だけで求人票を一括自動作成</p></div></div>
+      <div class="feature-item"><div class="feature-num">04</div><div><h4>AI Style（URL参照スタイル学習）</h4><p>参考URLの文体を学習し再現</p></div></div>
+      <div class="feature-item"><div class="feature-num">05</div><div><h4>求人情報 自動取り込み</h4><p>ハローワークPDF・他社求人URLから全項目自動入力</p></div></div>
+      <div class="feature-item"><div class="feature-num">06</div><div><h4>AI法令チェック</h4><p>公開前に規約違反を自動検出・修正案提示</p></div></div>
+      <div class="feature-item"><div class="feature-num">07</div><div><h4>応募者管理＋AI自動返信</h4><p>応募から1時間以内にAIが一次返信を自動送信</p></div></div>
+      <div class="feature-item"><div class="feature-num">08</div><div><h4>採用分析ダッシュボード</h4><p>応募数・選考状況・媒体効果を可視化</p></div></div>
+      <div class="feature-item"><div class="feature-num">09</div><div><h4>A/Bテスト</h4><p>求人原稿のA/Bテストで効果の高い文面を特定</p></div></div>
+      <div class="feature-item"><div class="feature-num">10</div><div><h4>AIプロンプト管理</h4><p>AIの生成ロジックを業種・職種に合わせてカスタマイズ</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW TO ─── -->
+<section class="section howto-section" style="background:#fff;">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">HOW TO START</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h2 class="section-title">ご利用の<span class="pur">流れ</span></h2>
+    <p class="section-lead">既存の求人がある場合はHello WorkのPDFやクライアントの求人票を取り込むだけ。ゼロから書く必要はありません。</p>
+
+    <div class="howto-grid reveal">
+      <div class="howto-card">
+        <div class="howto-num">1</div>
+        <h3>engageアカウントを接続</h3>
+        <p>約10分で完了。既存アカウントをそのまま接続できます。</p>
+      </div>
+      <div class="howto-card">
+        <div class="howto-num">2</div>
+        <h3>求人原稿をAIで作成</h3>
+        <p>条件入力 or PDF取込で原稿を自動生成。修正も簡単です。</p>
+      </div>
+      <div class="howto-card">
+        <div class="howto-num">3</div>
+        <h3>法令チェック → 掲載</h3>
+        <p>AIがNGを自動ブロック。問題なければそのまま掲載。</p>
+      </div>
+      <div class="howto-card">
+        <div class="howto-num">4</div>
+        <h3>応募者対応 → 分析</h3>
+        <p>AI自動返信＋ダッシュボードで採用活動を最適化。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRICING ─── -->
+<section class="pricing-section">
+  <div class="section-inner">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">PRICING</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h2 class="section-title">料金プラン</h2>
+    <p class="section-lead">複数の料金プランをご用意しております。<br>必要な機能に合わせてプランをお選びください。</p>
+
+    <div class="pricing-grid">
+      <div class="price-card lite reveal">
+        <div class="pname" translate="no">LITE</div>
+        <div class="pname-ja">ライト</div>
+        <div class="pdesc">まず試してみたい方に</div>
+        <ul class="pfeatures">
+          <li>クライアント一元管理</li>
+          <li>AI求人原稿 自動生成</li>
+          <li>ハローワークPDF 自動取込</li>
+          <li>Google Ads 入稿</li>
+          <li>AI法令チェック</li>
+        </ul>
+      </div>
+      <div class="price-card standard reveal">
+        <div class="popular-badge">人気No.1</div>
+        <div class="pname" translate="no">STANDARD</div>
+        <div class="pname-ja">スタンダード</div>
+        <div class="pdesc">本格運用したい方に</div>
+        <ul class="pfeatures">
+          <li>ライトの全機能</li>
+          <li>応募者管理＋AI自動返信</li>
+          <li>自動再申請スケジューリング</li>
+          <li>採用分析ダッシュボード</li>
+          <li>AI Styleコピー機能</li>
+        </ul>
+      </div>
+      <div class="price-card pro reveal">
+        <div class="pname" translate="no">PRO</div>
+        <div class="pname-ja">プロ</div>
+        <div class="pdesc">代行会社・複数拠点向け</div>
+        <ul class="pfeatures">
+          <li>スタンダードの全機能</li>
+          <li>A/Bテスト機能</li>
+          <li>AIプロンプト管理</li>
+          <li>代理店・アライアンス対応</li>
+          <li>専用サポート・カスタム開発</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center;color:rgba(255,255,255,0.4);font-size:13px;margin-top:28px;">料金詳細はお気軽にお問い合わせください。</p>
+  </div>
+</section>
+
+<!-- ─── CTA / FORM ─── -->
+<section class="cta-section" id="contact">
+  <h2>まずは無料デモで<br>その効果を体験してください。</h2>
+  <p>求人代行の"回す作業"から解放される体験を、ぜひ実感してください。</p>
+
+  <div class="cta-form-wrap">
+    <h3>お問い合わせ・デモ申込</h3>
+    <form onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label>会社名<span>*</span></label>
+        <input type="text" placeholder="株式会社〇〇" required>
+      </div>
+      <div class="form-group">
+        <label>お名前<span>*</span></label>
+        <input type="text" placeholder="山田 太郎" required>
+      </div>
+      <div class="form-group">
+        <label>メールアドレス<span>*</span></label>
+        <input type="email" placeholder="example@company.co.jp" required>
+      </div>
+      <div class="form-group">
+        <label>電話番号</label>
+        <input type="tel" placeholder="03-0000-0000">
+      </div>
+      <div class="form-group">
+        <label>現在の管理クライアント数</label>
+        <select>
+          <option>1〜5社</option>
+          <option>6〜20社</option>
+          <option>21〜50社</option>
+          <option>51社以上</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>お問い合わせ種別</label>
+        <select>
+          <option>無料デモを申し込みたい</option>
+          <option>料金・プランについて聞きたい</option>
+          <option>導入について相談したい</option>
+          <option>パートナー・代理店について</option>
+          <option>その他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>メッセージ（任意）</label>
+        <textarea placeholder="ご質問・ご要望などをご記入ください"></textarea>
+      </div>
+      <button type="submit" class="form-submit">送信する →</button>
+      <p class="form-note">送信後、担当者より2営業日以内にご連絡いたします。</p>
+    </form>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+      <defs><linearGradient id="flg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs>
+      <circle cx="20" cy="10" r="6" fill="url(#flg)" opacity="0.9"/>
+      <path d="M10 32 Q10 22 20 22 Q30 22 30 32" stroke="url(#flg)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <line x1="26" y1="20" x2="36" y2="12" stroke="url(#flg)" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <polyline points="30,12 36,12 36,18" stroke="url(#flg)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+    </svg>
+    <span style="font-size:16px;font-weight:900;color:rgba(255,255,255,0.8);">
+      <span style="background:linear-gradient(135deg,#7C3AED,#A855F7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">AI</span>求人マスター
+    </span>
+  </div>
+  <p>© AI求人マスター. All rights reserved.</p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '✓ 送信完了しました！';
+    btn.style.background = 'linear-gradient(135deg, var(--purple), var(--violet))';
+    btn.disabled = true;
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
